@@ -2,6 +2,7 @@ require('colors');
 const { inquirerMenu, pause, leerInput } = require('./helpers/inquirer');
 const Tarea = require('./models/tarea');
 const Tareas = require('./models/tareas');
+const { guardarDB } = require('./helpers/guardarArchivo');
 
 const main = async () => {
     
@@ -10,6 +11,7 @@ const main = async () => {
 
     do {
         console.log('\n');
+        // Imprimir el menú
         opt = await inquirerMenu();
 
         switch ( opt ) {
@@ -18,7 +20,7 @@ const main = async () => {
                 tareas.crearTarea( desc );
                 break;
             case '2':
-                console.log( tareas._listado );
+                console.log( tareas.listadoArr );
                 break;
             case '3':
                 
@@ -38,6 +40,9 @@ const main = async () => {
             default:
                 break;
         }
+
+        // Guardar el arreglo de tareas
+        // guardarDB( tareas.listadoArr );
 
         if( opt !== '0' ) await pause();
     } while ( opt !== '0' );

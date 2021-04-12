@@ -4,15 +4,23 @@ class Tareas {
 
     _listado = {};
 
+    get listadoArr() {
+        const listado = [];
+        // Object.keys - Se extraen las llaves de un objeto y regresa un arreglo 
+        Object.keys(this._listado).forEach( key => {
+            const tarea = this._listado[key];
+            listado.push( tarea );
+        });
+        return listado;
+    }
+
     constructor() {
         this._listado = {};
     }
 
     crearTarea( desc = '' ) {
-        
         const tarea = new Tarea( desc );
         this._listado[tarea.id] = tarea;
-
     }
 
 }
