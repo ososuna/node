@@ -18,11 +18,64 @@ class Tareas {
         this._listado = {};
     }
 
-    crearTarea( desc = '' ) {
-        const tarea = new Tarea( desc );
-        this._listado[tarea.id] = tarea;
+    cargarTareasFromArray( tareas = [] ) {
+
+         tareas.forEach( tarea => {
+            this._listado[tarea.id] = tarea;
+        });
+
     }
 
+    crearTarea( desc = '' ) {
+
+        const tarea = new Tarea( desc );
+        this._listado[tarea.id] = tarea;
+    
+    }
+
+    listadoCompleto() {
+
+        console.log();
+        this.listadoArr.forEach( (tarea, index) => {
+            
+            let i = `${ index + 1 }`;
+            const { desc, completadoEn } = tarea;
+            const estado = ( completadoEn )
+                                ? 'Completada'.green
+                                : 'Pendiente'.red;
+            i = ( completadoEn )
+                    ? i.green
+                    : i.red;
+            
+            console.log(`${ i }. ${ desc } - ${ estado }`);
+
+        });
+    }
+
+    listarPendientesCompletadas( completadas = true ) {
+        
+        console.log();
+        let contador = 0;
+        this.listadoArr.forEach( tarea => {
+        
+            const { desc, completadoEn } = tarea;
+            const estado = ( completadoEn )
+                                ? 'Completada'.green
+                                : 'Pendiente'.red;
+            
+            if ( completadas ) {
+                if ( completadoEn ) {
+                    contador+=1;
+                    console.log(`${ contador.toString().green }. ${ desc } - ${ completadoEn }`);
+                }
+            } else {
+                if ( !completadoEn ) {
+                    contador+=1;
+                    console.log(`${ contador.toString().red }. ${ desc } - ${ estado }`);
+                }
+            }            
+        });
+    }
 }
 
 module.exports = Tareas;
