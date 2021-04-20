@@ -65,16 +65,16 @@ const leerInput = async( message ) => {
     return desc;
 }
 
-const listadoTareasBorrar = async( tareas = [] ) => {
+const listarLugares = async( lugares = [] ) => {
     
     // map() retorna un nuevo arreglo transformando los valores del arreglo actual
-    const choices = tareas.map( (tarea, i ) => {
+    const choices = lugares.map( (lugar, i ) => {
         
         const index = `${i + 1}`.green;
         // Como van a lucir los nuevos items del arreglo
         return {
-            value: tarea.id,
-            name: `${ index }. ${ tarea.desc }`
+            value: lugar.id,
+            name: `${ index }. ${ lugar.nombre }`
         }
     });
 
@@ -83,16 +83,16 @@ const listadoTareasBorrar = async( tareas = [] ) => {
         name: '0. '.green + 'Cancelar'
     });
 
-    const preguntasBorrar = [
+    const preguntasListar = [
         {
             type: 'list',
             name: 'id',
-            message: 'Borrar',
+            message: 'Seleccionar lugar: ',
             choices
         }
     ]
     
-    const { id } = await inquirer.prompt( preguntasBorrar );
+    const { id } = await inquirer.prompt( preguntasListar );
 
     return id;
 
@@ -146,7 +146,7 @@ module.exports = {
     inquirerMenu,
     pause,
     leerInput,
-    listadoTareasBorrar,
+    listarLugares,
     confirmar,
     mostrarListadoChecklist
 }
