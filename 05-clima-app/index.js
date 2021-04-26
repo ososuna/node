@@ -12,7 +12,7 @@ const main = async() => {
     do {
         opt = await inquirerMenu();
         
-        switch ( opt  ) {
+        switch ( opt ) {
             case 1:
                 // Mostrar mensaje
                 const termino = await leerInput('Ciudad: ');

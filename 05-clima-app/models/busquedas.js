@@ -16,7 +16,7 @@ class Busquedas {
 
         return this.historial.map( lugar => {
             
-            let palabras = lugar.split('  ');
+            let palabras = lugar.split(' ');
             palabras = palabras.map( p => p[0].toUpperCase() + p.substring(1) );
 
             return palabras.join(' ');
@@ -99,7 +99,8 @@ class Busquedas {
         
         // Prevenir duplicados
         if ( this.historial.includes( lugar.toLowerCase() ) ) return;
-    
+        
+        this.historial = this.historial.splice( 0, 5 );
 
         // Guardar en historial
         this.historial.unshift( lugar );
