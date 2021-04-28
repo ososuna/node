@@ -1,5 +1,5 @@
 */node_modules/
 03-bases-node/salida/*.txt
 04-tareas/db/*.json
-05-clima-app/.env
+*/.env
 05-clima-app/db
