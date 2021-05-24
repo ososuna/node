@@ -3,7 +3,7 @@ const { response } = require('express');
 
 const bcryptjs = require('bcryptjs');
 
-const { validationResult } = require('express-validator');
+
 
 const Usuario = require('../models/usuario');
 
@@ -25,11 +25,6 @@ const usuariosGet = ( req, res = response ) => {
 
 const usuariosPost = async ( req, res = response ) => {
     
-    // Errores del Middleware express-validator
-    const errors = validationResult( req );
-
-    if ( !errors.isEmpty() ) return res.status( 400 ).json( errors ); 
-
     // Extraer body
     const { nombre, correo, password, rol } = req.body;
 
