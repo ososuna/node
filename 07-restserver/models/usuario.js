@@ -33,4 +33,12 @@ const UsuarioSchema = Schema({
     },
 });
 
+// Sobreescribir método toJSON
+// Función de flecha - apunta this fuera de la misma
+// Función normal - this hará referencia a la instancia creada 
+UsuarioSchema.methods.toJSON = function () {
+    const { __v, password, ...usuario } = this.toObject();
+    return usuario;
+}
+
 module.exports = model( 'Usuario', UsuarioSchema );
