@@ -1,5 +1,6 @@
 
 const { request, response } = require('express');
+const { body } = require('express-validator');
 const { Producto, Categoria } = require('../models');
 
 const obtenerProductos = async ( req = request, res = response ) => {
@@ -13,6 +14,7 @@ const obtenerProductos = async ( req = request, res = response ) => {
             .skip(Number( skip ))
             .limit(Number( limit ))
             .populate('usuario', 'nombre')
+            .populate('categoria', 'nombre')
     ]);
 
     res.json({
@@ -26,7 +28,9 @@ const obtenerProductoPorId = async ( req = request, res = response ) => {
 
     const { id } = req.params;
  
-    producto = await Producto.findById( id ).populate('usuario', 'nombre');
+    producto = await Producto.findById( id )
+                        .populate('usuario', 'nombre')
+                        .populate('categoria', 'nombre');
 
     res.json({
         producto
@@ -36,11 +40,9 @@ const obtenerProductoPorId = async ( req = request, res = response ) => {
 
 const crearProducto = async ( req = request, res = response ) => {
 
-    const { nombre, categoria, ...data } = req.body;
+    const { estado, usuario, ...body } = req.body;
 
-    data.nombre = nombre.toUpperCase();
-
-    const productoDB = await Producto.findOne({ nombre: data.nombre });
+    const productoDB = await Producto.findOne({ nombre: body.nombre });
 
     if ( productoDB ) {
         return res.status(400).json({
@@ -48,8 +50,11 @@ const crearProducto = async ( req = request, res = response ) => {
         });
     }
 
-    data.categoria = await Categoria.findOne({ nombre: categoria });
-    data.usuario = req.usuario._id;
+    const data = {
+        ...body,
+        nombre: body.nombre.toUpperCase(),
+        usuario: req.usuario._id
+    }
 
     const producto = new Producto( data );
 
@@ -64,7 +69,8 @@ const actualizarProducto = async ( req = request, res = response ) => {
     const { id } = req.params;
     const { usuario, estado, ...data } = req.body;
     
-    data.nombre = data.nombre.toUpperCase();
+    if ( data.nombre ) data.nombre = data.nombre.toUpperCase();
+
     data.usuario = req.usuario._id;
 
     const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
