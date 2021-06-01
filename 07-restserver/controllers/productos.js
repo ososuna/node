@@ -42,8 +42,8 @@ const crearProducto = async ( req = request, res = response ) => {
 
     const { estado, usuario, ...body } = req.body;
 
-    const productoDB = await Producto.findOne({ nombre: body.nombre });
-
+    const productoDB = await Producto.findOne({ nombre: body.nombre.toUpperCase() });
+    
     if ( productoDB ) {
         return res.status(400).json({
             msg: `El producto ${ productoDB.nombre } ya existe`
